@@ -22,7 +22,10 @@ is
    with
       Pre => Port_Cfg.Port in GMCH_DP_Port;
 
-   procedure Off (Port : GMCH_DP_Port);
+   pragma Warnings (GNATprove, Off, "unused variable ""Pipe""",
+                    Reason => "Needed for a common interface");
+   procedure Off (Pipe : Pipe_Index; Port : GMCH_DP_Port);
+   pragma Warnings (GNATprove, On, "unused variable ""Pipe""");
    procedure All_Off;
 
 end HW.GFX.GMA.GMCH.DP;

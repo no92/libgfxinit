@@ -106,10 +106,13 @@ package body HW.GFX.GMA.PCH.DP is
 
    ----------------------------------------------------------------------------
 
+   pragma Warnings (GNATprove, Off, "unused variable ""Pipe""",
+                    Reason => "Needed for a common interface");
    pragma Warnings (GNATprove, Off, "unused variable ""Link""",
                     Reason => "Needed for a common interface");
    procedure Set_Training_Pattern
-     (Port     : PCH_DP_Port;
+     (Pipe     : GMA.Pipe_Index;
+      Port     : PCH_DP_Port;
       Link     : DP_Link;
       Pattern  : DP_Info.Training_Pattern)
    is
@@ -120,8 +123,11 @@ package body HW.GFX.GMA.PCH.DP is
          Mask_Set    => DP_CTL_LINK_TRAIN (Pattern));
    end Set_Training_Pattern;
 
+   pragma Warnings (GNATprove, Off, "unused variable ""eDP""",
+                    Reason => "Needed for a common interface");
    procedure Set_Signal_Levels
      (Port        : PCH_DP_Port;
+      eDP         : Boolean;
       Link        : DP_Link;
       Train_Set   : DP_Info.Train_Set)
    is
@@ -133,8 +139,9 @@ package body HW.GFX.GMA.PCH.DP is
          Mask_Set    => DP_CTL_VSWING_LEVEL_SET (Train_Set.Voltage_Swing) or
                         DP_CTL_PREEMPH_LEVEL_SET (Train_Set.Pre_Emph));
    end Set_Signal_Levels;
+   pragma Warnings (GNATprove, On, "unused variable ""eDP""");
 
-   procedure Off (Port : PCH_DP_Port)
+   procedure Off (Pipe : GMA.Pipe_Index; Port : PCH_DP_Port)
    is
       With_Transcoder_B_Enabled : Boolean := False;
    begin
@@ -224,7 +231,9 @@ package body HW.GFX.GMA.PCH.DP is
                      DP_CTL_LINK_TRAIN (DP_Info.TP_1));
 
       Training.Train_DP
-        (Port     => Port_Cfg.PCH_Port,
+        (Pipe     => Pipe_Index'First, -- unused
+         eDP      => False, --unsused
+         Port     => Port_Cfg.PCH_Port,
          Link     => Port_Cfg.DP,
          Success  => Success);
    end On;
@@ -237,7 +246,7 @@ package body HW.GFX.GMA.PCH.DP is
       pragma Debug (Debug.Put_Line (GNAT.Source_Info.Enclosing_Entity));
 
       for Port in PCH_DP_Port loop
-         Off (Port);
+         Off (Primary, Port);
       end loop;
    end All_Off;
 

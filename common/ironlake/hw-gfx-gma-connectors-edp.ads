@@ -21,9 +21,12 @@ is
      (Link     : in     DP_Link;
       Success  :    out Boolean);
 
+   pragma Warnings (GNATprove, Off, "unused variable ""Pipe""",
+                    Reason => "Needed for a common interface");
    pragma Warnings (GNATprove, Off, "unused variable ""Port""",
                     Reason => "Needed for a common interface");
-   procedure Off (Port : Digital_Port);
+   procedure Off (Pipe : GMA.Pipe_Index; Port : Digital_Port);
+   pragma Warnings (GNATprove, On, "unused variable ""Pipe""");
    pragma Warnings (GNATprove, On, "unused variable ""Port""");
 
    procedure Pre_Training;

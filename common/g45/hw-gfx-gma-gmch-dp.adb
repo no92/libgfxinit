@@ -106,8 +106,11 @@ package body HW.GFX.GMA.GMCH.DP is
 
    pragma Warnings (GNATprove, Off, "unused variable ""Link""",
                     Reason => "Needed for a common interface");
+   pragma Warnings (GNATprove, Off, "unused variable ""Pipe""",
+                    Reason => "Needed for a common interface");
    procedure Set_Training_Pattern
-     (Port     : GMCH_DP_Port;
+     (Pipe     : Pipe_Index;
+      Port     : GMCH_DP_Port;
       Link     : DP_Link;
       Pattern  : DP_Info.Training_Pattern)
    is
@@ -118,8 +121,11 @@ package body HW.GFX.GMA.GMCH.DP is
          Mask_Set    => DP_CTL_LINK_TRAIN (Pattern));
    end Set_Training_Pattern;
 
+   pragma Warnings (GNATprove, Off, "unused variable ""eDP""",
+                    Reason => "Needed for a common interface");
    procedure Set_Signal_Levels
      (Port        : GMCH_DP_Port;
+      eDP         : Boolean;
       Link        : DP_Link;
       Train_Set   : DP_Info.Train_Set)
    is
@@ -131,8 +137,9 @@ package body HW.GFX.GMA.GMCH.DP is
          Mask_Set    => DP_CTL_VSWING_LEVEL_SET (Train_Set.Voltage_Swing) or
                         DP_CTL_PREEMPH_LEVEL_SET (Train_Set.Pre_Emph));
    end Set_Signal_Levels;
+   pragma Warnings (GNATprove, On, "unused variable ""eDP""");
 
-   procedure Off (Port : GMCH_DP_Port)
+   procedure Off (Pipe : Pipe_Index; Port : GMCH_DP_Port)
    is
    begin
       pragma Debug (Debug.Put_Line (GNAT.Source_Info.Enclosing_Entity));
@@ -148,6 +155,7 @@ package body HW.GFX.GMA.GMCH.DP is
    end Off;
    pragma Warnings (GNATprove, On, "unused variable ""Port""");
    pragma Warnings (GNATprove, On, "unused variable ""Link""");
+   pragma Warnings (GNATprove, On, "unused variable ""Pipe""");
 
    ----------------------------------------------------------------------------
 
@@ -196,8 +204,10 @@ package body HW.GFX.GMA.GMCH.DP is
                      Sync_Polarity or
                      DP_CTL_COLOR_RANGE_16_235);
       Training.Train_DP
-        (Port     => Port_Cfg.Port,
+        (Pipe     => Pipe_Index'First, -- unused
+         Port     => Port_Cfg.Port,
          Link     => Port_Cfg.DP,
+         eDP      => False,     -- unused
          Success  => Success);
    end On;
 
@@ -209,7 +219,8 @@ package body HW.GFX.GMA.GMCH.DP is
       pragma Debug (Debug.Put_Line (GNAT.Source_Info.Enclosing_Entity));
 
       for Port in GMCH_DP_Port loop
-         Off (Port);
+         Off (Pipe_Index'First, -- unused
+              Port);
       end loop;
    end All_Off;
 

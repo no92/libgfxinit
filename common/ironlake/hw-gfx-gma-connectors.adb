@@ -121,14 +121,14 @@ is
       pragma Debug (Debug.Put_Line (GNAT.Source_Info.Enclosing_Entity));
 
       if Port_Cfg.Port = DIGI_A then
-         EDP.Off (Port_Cfg.Port);
+         EDP.Off (Primary, Port_Cfg.Port);
       elsif Port_Cfg.Port in FDI.GPU_FDI_Port then
          declare
             FDI_Port : constant PCH.FDI_Port_Type :=
                FDI.PCH_FDIs (Port_Cfg.Port);
          begin
             if Port_Cfg.PCH_Port in PCH_DP_Port then
-               PCH.DP.Off (Port_Cfg.PCH_Port);
+               PCH.DP.Off (Primary, Port_Cfg.PCH_Port);
             end if;
 
             FDI.Off (Port_Cfg.Port, FDI.Link_Off);
@@ -165,7 +165,7 @@ is
    begin
       pragma Debug (Debug.Put_Line (GNAT.Source_Info.Enclosing_Entity));
 
-      EDP.Off (DIGI_A);
+      EDP.Off (Primary, DIGI_A);
 
       for Port in FDI.GPU_FDI_Port loop
          FDI.Off (Port, FDI.Link_Off);

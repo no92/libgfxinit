@@ -87,7 +87,8 @@ is
       elsif Port_Cfg.Port = VGA then
          GMCH.VGA.Off;
       elsif Port_Cfg.Display = DP and Port_Cfg.Port in GMCH_DP_Port then
-         GMCH.DP.Off (Port_Cfg.Port);
+         GMCH.DP.Off (Pipe_Index'First, -- unused
+                      Port_Cfg.Port);
       elsif Port_Cfg.Display = HDMI and Port_Cfg.Port in GMCH_HDMI_Port then
          GMCH.HDMI.Off (Port_Cfg.Port);
       end if;
