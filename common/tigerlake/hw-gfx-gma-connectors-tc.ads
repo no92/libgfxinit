@@ -12,7 +12,7 @@
 -- GNU General Public License for more details.
 --
 
-with HW.GFX.GMA;
+--  with HW.GFX.GMA;
 with HW.GFX.GMA.DP_Info;
 
 package HW.GFX.GMA.Connectors.TC is

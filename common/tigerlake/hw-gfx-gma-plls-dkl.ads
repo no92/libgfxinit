@@ -14,7 +14,7 @@
 
 with HW.Debug;
 with GNAT.Source_Info;
-with HW.GFX.GMA.PLLs;
+--  with HW.GFX.GMA.PLLs;
 
 private package HW.GFX.GMA.PLLs.DKL is
 
